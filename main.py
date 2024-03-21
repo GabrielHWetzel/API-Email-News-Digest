@@ -20,12 +20,13 @@ url = f"https://newsapi.org/v2/everything?"\
 request = requests.get(url)
 content = request.json()
 
+linebreak = "\n"
 # Create email message
 message = ""
 for articles in content["articles"][:20]:
     if all([articles['title'], articles['description'], articles['url']]):
         message = message + f"""Title: {articles['title']}
-Description: {articles['description']}
+Description: {articles['description'].replace(linebreak, '. ')}
 See more at: {articles['url']}\n\n"""
 
 message = "Subject: Email digest\n\n" + message
